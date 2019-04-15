@@ -123,14 +123,24 @@ findOrderedNN_mra = function(locs, mra.options, m=-1){
 
   tree.0 = proc.time()
   knt.tree = knot.tree(locs, mra.params)
-  #print("tree time")
-  #print(proc.time() - tree.0)
+  print("tree time: standard")
+  print(proc.time() - tree.0)
 
-  # mat = getNNmatrix(knt.tree,m)
+  tree.0 = proc.time()
+  knt.tree = knot.tree.old(locs, mra.params)
+  print("tree time: old")
+  print(proc.time() - tree.0)
+
+  tree.0 = proc.time()
+  knt.tree = knot.tree.firstm.optimized(locs, mra.params)
+  print("tree time: firstm")
+  print(proc.time() - tree.0)
+
+
   NN.0 = proc.time()
   mat = getNNmatrix(knt.tree)
-  #print("NN time")
-  #print(proc.time() - NN.0)
+  print("NN time")
+  print(proc.time() - NN.0)
   eff.m = ncol(mat)-1
 
   if(eff.m > 100) print(paste("Effective m is ", ncol(mat)-1, " which might slow down computations", sep=""))
